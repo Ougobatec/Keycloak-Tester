@@ -1,4 +1,4 @@
-import { useEffect } from 'react';
+import { useEffect, useState, useRef } from 'react';
 import { copyToClipboard } from '../utils/helpers';
 import type { ParsedToken } from '../types';
 
@@ -42,6 +42,15 @@ export function UserMenu({
     icon: React.ReactNode;
     color?: 'blue' | 'purple' | 'teal' | 'emerald';
   }) => {
+    const [copied, setCopied] = useState(false);
+    const timeoutRef = useRef<number | null>(null);
+
+    // Cleanup timeout on unmount
+    useEffect(() => {
+      return () => {
+        if (timeoutRef.current) window.clearTimeout(timeoutRef.current);
+      };
+    }, []);
     const iconColorClasses = {
       blue: 'bg-gradient-to-br from-blue-600 to-blue-700 shadow-lg shadow-blue-500/20',
       purple:
@@ -63,23 +72,49 @@ export function UserMenu({
           </div>
         </div>
         <button
-          onClick={() => copyToClipboard(value)}
-          className="flex-shrink-0 opacity-0 group-hover:opacity-100 bg-white/5 hover:bg-white/10 border border-white/20 text-white/80 hover:text-white transition-opacity duration-150 p-1.5 rounded cursor-pointer"
-          title="Copy"
+          onClick={() => {
+            copyToClipboard(value);
+            setCopied(true);
+            if (timeoutRef.current) window.clearTimeout(timeoutRef.current);
+            timeoutRef.current = window.setTimeout(
+              () => setCopied(false),
+              2000
+            );
+          }}
+          className={`shrink-0 ${copied ? 'opacity-100' : 'opacity-0 group-hover:opacity-100'} bg-white/5 hover:bg-white/10 border border-white/20 text-white/80 hover:text-white transition-opacity duration-150 p-1.5 rounded cursor-pointer`}
+          title={copied ? 'Copied' : 'Copy'}
+          // accessibility handled by semantics of button; avoid dynamic ARIA lint issues
+          type="button"
         >
-          <svg
-            className="w-4 h-4"
-            fill="none"
-            stroke="currentColor"
-            viewBox="0 0 24 24"
-          >
-            <path
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              strokeWidth={2}
-              d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"
-            />
-          </svg>
+          {copied ? (
+            <svg
+              className="w-4 h-4"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth={2}
+                d="M5 13l4 4L19 7"
+              />
+            </svg>
+          ) : (
+            <svg
+              className="w-4 h-4"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth={2}
+                d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"
+              />
+            </svg>
+          )}
         </button>
       </div>
     );
@@ -97,7 +132,7 @@ export function UserMenu({
         {/* Header */}
         <div className="flex items-center justify-between mb-6">
           <div className="flex items-center gap-3">
-            <div className="bg-gradient-to-br from-blue-600 to-purple-600 p-3 rounded-lg shadow-lg shadow-blue-500/20">
+            <div className="bg-linear-to-br from-blue-600 to-purple-600 p-3 rounded-lg shadow-lg shadow-blue-500/20">
               <svg
                 className="w-6 h-6 text-white"
                 fill="currentColor"
@@ -228,7 +263,7 @@ export function UserMenu({
               <div className="pt-2">
                 <div className="p-3 bg-white/5 rounded-lg border border-white/10">
                   <div className="flex items-center gap-3 mb-3">
-                    <div className="bg-gradient-to-br from-indigo-600 to-violet-600 p-2 rounded-lg shadow-lg shadow-indigo-500/20">
+                    <div className="bg-linear-to-br from-indigo-600 to-violet-600 p-2 rounded-lg shadow-lg shadow-indigo-500/20">
                       <svg
                         className="w-4 h-4 text-white"
                         fill="none"
@@ -251,7 +286,7 @@ export function UserMenu({
                     {accessToken.realm_access.roles.map((role) => (
                       <span
                         key={role}
-                        className="bg-gradient-to-r from-indigo-600/20 to-violet-600/20 border border-indigo-500/30 rounded-full px-3 py-1 text-xs text-indigo-200 font-medium"
+                        className="bg-linear-to-r from-indigo-600/20 to-violet-600/20 border border-indigo-500/30 rounded-full px-3 py-1 text-xs text-indigo-200 font-medium"
                       >
                         {role}
                       </span>

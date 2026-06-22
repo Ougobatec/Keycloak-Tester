@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useRef, useEffect } from 'react';
 import { copyToClipboard, decodeJWT } from '../utils/helpers';
 
 interface TokenDisplayProps {
@@ -17,6 +17,14 @@ export function TokenDisplay({
   color = 'blue',
 }: TokenDisplayProps) {
   const [showDecoded, setShowDecoded] = useState(false);
+  const [copied, setCopied] = useState(false);
+  const timeoutRef = useRef<number | null>(null);
+
+  useEffect(() => {
+    return () => {
+      if (timeoutRef.current) window.clearTimeout(timeoutRef.current);
+    };
+  }, []);
   const decoded = decodeJWT(token);
 
   const colorClasses = {
@@ -68,35 +76,59 @@ export function TokenDisplay({
             </button>
           )}
           <button
-            onClick={() =>
+            onClick={() => {
               copyToClipboard(
                 showDecoded && decoded
                   ? JSON.stringify(decoded, null, 2)
                   : token
-              )
-            }
+              );
+              setCopied(true);
+              if (timeoutRef.current) window.clearTimeout(timeoutRef.current);
+              timeoutRef.current = window.setTimeout(
+                () => setCopied(false),
+                2000
+              );
+            }}
             className="bg-white/5 hover:bg-white/10 border border-white/20 text-white/80 hover:text-white transition p-2 rounded-lg cursor-pointer"
-            title="Copy"
+            title={copied ? 'Copied' : 'Copy'}
+            // keep visual style, no ARIA pressed to avoid linting issues
+            type="button"
           >
-            <svg
-              className="w-5 h-5"
-              fill="none"
-              stroke="currentColor"
-              viewBox="0 0 24 24"
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth={2}
-                d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"
-              />
-            </svg>
+            {copied ? (
+              <svg
+                className="w-5 h-5"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2}
+                  d="M5 13l4 4L19 7"
+                />
+              </svg>
+            ) : (
+              <svg
+                className="w-5 h-5"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2}
+                  d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"
+                />
+              </svg>
+            )}
           </button>
         </div>
       </div>
 
       {/* Token Content */}
-      <div className="bg-slate-900/80 rounded-lg p-4 border border-white/10 h-[208px]">
+      <div className="bg-slate-900/80 rounded-lg p-4 border border-white/10 h-52">
         {showDecoded && decoded ? (
           <pre className="text-xs text-white/90 font-mono overflow-auto h-full scrollbar-thin scrollbar-thumb-white/20 scrollbar-track-transparent">
             {JSON.stringify(decoded, null, 2)}
