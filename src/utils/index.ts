@@ -132,7 +132,10 @@ export const connectToKeycloak = async (
       await keycloakService.login();
       return Promise.reject(new Error('Redirection vers la connexion'));
     }
-    saveConfigToStorage(config);
+
+    // Sauvegarder la configuration si la connexion réussit
+    const configToSave = { ...config, disableSilentSSO };
+    saveConfigToStorage(configToSave);
 
     const tokenInfo = keycloakService.getTokenInfo();
     if (!tokenInfo) {
@@ -141,6 +144,35 @@ export const connectToKeycloak = async (
     return tokenInfo;
   } catch (error) {
     throw new Error(`Erreur de connexion Keycloak: ${error}`);
+  }
+};
+
+// Fonction pour vérifier si l'utilisateur est déjà connecté
+export const checkExistingAuth = async (
+  config: KeycloakConfig,
+  disableSilentSSO: boolean = false
+): Promise<TokenInfo | null> => {
+  const errors = validateConfig(config);
+
+  if (errors.length > 0) {
+    return null;
+  }
+
+  try {
+    await keycloakService.initKeycloak(config, disableSilentSSO);
+
+    if (keycloakService.isAuthenticated()) {
+      const tokenInfo = keycloakService.getTokenInfo();
+      return tokenInfo;
+    }
+
+    return null;
+  } catch (error) {
+    console.warn(
+      "Erreur lors de la vérification de l'authentification:",
+      error
+    );
+    return null;
   }
 };
 
