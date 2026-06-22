@@ -14,17 +14,22 @@ Perfect for developers setting up Keycloak for the first time or testing authent
 
 **Configuration Screen** - Fill in your Keycloak connection details
 
-![Configuration Screen](./assets/image1.png)
+<img src="./assets/image1.png" alt="Configuration Screen" width="600">
 
 **Token Display** - View and decode all JWT tokens with live expiration timers
 
-![Token Display](./assets/image2.png)
+<img src="./assets/image2.png" alt="Token Display" width="600">
 
 **User Profile** - Inspect user claims and assigned realm roles
 
-![User Profile](./assets/image3.png)
+<img src="./assets/image3.png" alt="User Profile" width="600">
 
 ## 🚀 Quick Start
+
+### Prerequisites
+
+- **Node.js 18+** - Required for React 19 and Vite 7
+- **npm** or **yarn** package manager
 
 ### Installation
 
@@ -32,12 +37,26 @@ Perfect for developers setting up Keycloak for the first time or testing authent
 # Clone the repository (or download it)
 git clone https://github.com/Ougobatec/Keycloak-Tester.git
 cd Keycloak-Tester
+```
 
+**With npm:**
+
+```bash
 # Install dependencies
 npm install
 
 # Start the development server
 npm run dev
+```
+
+**With yarn:**
+
+```bash
+# Install dependencies
+yarn install
+
+# Start the development server
+yarn dev
 ```
 
 The app will run on `http://localhost:3001` by default.
@@ -52,18 +71,38 @@ PORT=3000
 
 Or pass it as an environment variable:
 
+**With npm:**
+
 ```bash
 PORT=3000 npm run dev
 ```
 
-### Build for Production
+**With yarn:**
 
 ```bash
-# Build the app
+PORT=3000 yarn dev
+```
+
+### Build for Production
+
+**With npm:**
+
+```bash
+# Build for production
 npm run build
 
 # Preview the production build
 npm run preview
+```
+
+**With yarn:**
+
+```bash
+# Build for production
+yarn build
+
+# Preview the production build
+yarn preview
 ```
 
 ## 🐳 Keycloak Setup with Docker
@@ -79,8 +118,6 @@ docker run -d --name keycloak -p 127.0.0.1:8080:8080 -e KC_BOOTSTRAP_ADMIN_USERN
    - Root URL: `http://localhost:3001`
    - Valid redirect URIs: `http://localhost:3001/*`
    - Web origins: `http://localhost:3001`
-
-> Replace `3001` with your custom PORT if you changed it in the `.env` file.
 
 2. **Add Client Scopes**: Client scopes tab → Assign `profile`, `email`, `roles` as **default** scopes
 
@@ -167,12 +204,18 @@ Click your username in the navigation bar to open the user profile modal, which 
 
 **"Port Already in Use"**
 
-```bash
-# Change port in .env file
-echo "PORT=3002" > .env
+**With npm:**
 
-# Or use a different port temporarily
+```bash
+# Use a different port temporarily
 PORT=3002 npm run dev
+```
+
+**With yarn:**
+
+```bash
+# Use a different port temporarily
+PORT=3002 yarn dev
 ```
 
 **"Keycloak Container Not Starting"**
@@ -180,11 +223,11 @@ PORT=3002 npm run dev
 ```bash
 # Check container logs
 docker logs keycloak
+```
 
+```bash
 # Stop and remove container
 docker stop keycloak && docker rm keycloak
-
-# Re-run the docker command
 ```
 
 ## 📦 Tech Stack
@@ -194,13 +237,6 @@ docker stop keycloak && docker rm keycloak
 - **Vite** - Lightning-fast build tool
 - **Keycloak-js** - Official Keycloak JavaScript adapter
 - **Tailwind CSS** - Utility-first styling
-
-## 📝 Additional Notes
-
-- Configuration is persisted in browser `localStorage` for convenience
-- The app uses the **Authorization Code Flow** (standard OIDC flow)
-- Silent SSO uses an `iframe` to detect existing sessions
-- For production deployments, configure proper redirect URIs and origins in Keycloak
 
 ## 📄 License
 
