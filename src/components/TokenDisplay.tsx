@@ -1,12 +1,17 @@
 import { useState, useRef, useEffect } from 'react';
 import { copyToClipboard, decodeJWT } from '../utils/helpers';
+import { GlassPanel } from './GlassPanel';
+import { IconBox } from './IconBox';
+import { Button } from './Button';
+import { TextInput } from './TextInput';
+import type { ColorName } from '../styles/colors';
 
 interface TokenDisplayProps {
   title: string;
   token: string;
   expiration?: string | React.ReactNode;
   icon?: React.ReactNode;
-  color?: 'blue' | 'purple' | 'teal';
+  color?: ColorName;
 }
 
 export function TokenDisplay({
@@ -27,23 +32,12 @@ export function TokenDisplay({
   }, []);
   const decoded = decodeJWT(token);
 
-  const colorClasses = {
-    blue: 'bg-gradient-to-br from-blue-600 to-blue-700 shadow-lg shadow-blue-500/20',
-    purple:
-      'bg-gradient-to-br from-purple-600 to-purple-700 shadow-lg shadow-purple-500/20',
-    teal: 'bg-gradient-to-br from-teal-600 to-cyan-600 shadow-lg shadow-teal-500/20',
-  };
-
   return (
-    <div className="bg-slate-800/30 backdrop-blur-sm border border-white/10 rounded-lg p-6">
+    <GlassPanel>
       {/* Header */}
       <div className="flex items-center justify-between mb-4">
         <div className="flex items-center gap-3">
-          {icon && (
-            <div className={`${colorClasses[color]} p-2 rounded-lg`}>
-              {icon}
-            </div>
-          )}
+          {icon && <IconBox color={color}>{icon}</IconBox>}
           <div>
             <h3 className="text-lg font-semibold text-white">{title}</h3>
             {expiration && (
@@ -68,14 +62,12 @@ export function TokenDisplay({
         </div>
         <div className="flex items-center gap-2">
           {decoded && (
-            <button
-              onClick={() => setShowDecoded(!showDecoded)}
-              className="px-3 py-2 rounded-lg font-medium text-sm transition bg-white/5 hover:bg-white/10 border border-white/20 text-white/80 hover:text-white cursor-pointer"
-            >
+            <Button size="sm" onClick={() => setShowDecoded(!showDecoded)}>
               {showDecoded ? 'Raw Token' : 'Decoded'}
-            </button>
+            </Button>
           )}
-          <button
+          <Button
+            size="sm"
             onClick={() => {
               copyToClipboard(
                 showDecoded && decoded
@@ -89,14 +81,11 @@ export function TokenDisplay({
                 2000
               );
             }}
-            className="bg-white/5 hover:bg-white/10 border border-white/20 text-white/80 hover:text-white transition p-2 rounded-lg cursor-pointer"
-            title={copied ? 'Copied' : 'Copy'}
-            // keep visual style, no ARIA pressed to avoid linting issues
-            type="button"
+            className="p-2!"
           >
             {copied ? (
               <svg
-                className="w-5 h-5"
+                className="w-4 h-4"
                 fill="none"
                 stroke="currentColor"
                 viewBox="0 0 24 24"
@@ -110,7 +99,7 @@ export function TokenDisplay({
               </svg>
             ) : (
               <svg
-                className="w-5 h-5"
+                className="w-4 h-4"
                 fill="none"
                 stroke="currentColor"
                 viewBox="0 0 24 24"
@@ -123,25 +112,21 @@ export function TokenDisplay({
                 />
               </svg>
             )}
-          </button>
+          </Button>
         </div>
       </div>
 
       {/* Token Content */}
-      <div className="bg-slate-900/80 rounded-lg p-4 border border-white/10 h-52">
-        {showDecoded && decoded ? (
-          <pre className="text-xs text-white/90 font-mono overflow-auto h-full scrollbar-thin scrollbar-thumb-white/20 scrollbar-track-transparent">
-            {JSON.stringify(decoded, null, 2)}
-          </pre>
-        ) : (
-          <textarea
-            readOnly
-            value={token}
-            aria-label={`Token ${title}`}
-            className="w-full h-full bg-transparent text-white/80 text-xs font-mono resize-none focus:outline-none scrollbar-thin scrollbar-thumb-white/20 scrollbar-track-transparent"
-          />
-        )}
-      </div>
-    </div>
+      <TextInput
+        multiline
+        readOnly
+        value={
+          showDecoded && decoded ? JSON.stringify(decoded, null, 2) : token
+        }
+        aria-label={`Token ${title}`}
+        rows={10}
+        className="h-52 text-xs font-mono"
+      />
+    </GlassPanel>
   );
 }

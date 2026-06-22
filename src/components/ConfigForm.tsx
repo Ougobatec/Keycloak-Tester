@@ -1,4 +1,8 @@
 import type { KeycloakConfig } from '../types';
+import { GlassPanel } from './GlassPanel';
+import { IconBox } from './IconBox';
+import { Button } from './Button';
+import { TextInput } from './TextInput';
 
 interface ConfigFormProps {
   config: KeycloakConfig;
@@ -18,11 +22,11 @@ export function ConfigForm({
   const isValid = config.url && config.realm && config.clientId;
 
   return (
-    <div className="bg-slate-800/30 backdrop-blur-sm border border-white/10 rounded-lg p-6 space-y-4">
+    <GlassPanel className="space-y-4">
       <div className="flex items-center gap-3 mb-4">
-        <div className="bg-gradient-to-br from-teal-600 to-cyan-600 p-3 rounded-lg shadow-lg shadow-teal-500/20">
+        <IconBox color="teal" size="lg">
           <svg
-            className="w-6 h-6 text-white"
+            className="w-6 h-6"
             fill="none"
             stroke="currentColor"
             viewBox="0 0 24 24"
@@ -40,7 +44,7 @@ export function ConfigForm({
               d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"
             />
           </svg>
-        </div>
+        </IconBox>
         <div>
           <h2 className="text-xl font-semibold text-white">
             Keycloak Configuration
@@ -49,38 +53,29 @@ export function ConfigForm({
         </div>
       </div>
 
-      <div>
-        <label className="block text-sm text-white/70 mb-1">Keycloak URL</label>
-        <input
-          type="url"
-          value={config.url}
-          onChange={(e) => onChange({ ...config, url: e.target.value })}
-          placeholder="https://keycloak.example.com"
-          className="w-full bg-white/5 border border-white/20 rounded px-3 py-2 text-white placeholder-white/40 focus:outline-none focus:border-white/40 transition"
-        />
-      </div>
+      <TextInput
+        label="Keycloak URL"
+        type="url"
+        value={config.url}
+        onChange={(e) => onChange({ ...config, url: e.target.value })}
+        placeholder="https://keycloak.example.com"
+      />
 
-      <div>
-        <label className="block text-sm text-white/70 mb-1">Realm</label>
-        <input
-          type="text"
-          value={config.realm}
-          onChange={(e) => onChange({ ...config, realm: e.target.value })}
-          placeholder="my-realm"
-          className="w-full bg-white/5 border border-white/20 rounded px-3 py-2 text-white placeholder-white/40 focus:outline-none focus:border-white/40 transition"
-        />
-      </div>
+      <TextInput
+        label="Realm"
+        type="text"
+        value={config.realm}
+        onChange={(e) => onChange({ ...config, realm: e.target.value })}
+        placeholder="my-realm"
+      />
 
-      <div>
-        <label className="block text-sm text-white/70 mb-1">Client ID</label>
-        <input
-          type="text"
-          value={config.clientId}
-          onChange={(e) => onChange({ ...config, clientId: e.target.value })}
-          placeholder="my-client"
-          className="w-full bg-white/5 border border-white/20 rounded px-3 py-2 text-white placeholder-white/40 focus:outline-none focus:border-white/40 transition"
-        />
-      </div>
+      <TextInput
+        label="Client ID"
+        type="text"
+        value={config.clientId}
+        onChange={(e) => onChange({ ...config, clientId: e.target.value })}
+        placeholder="my-client"
+      />
 
       <div className="flex items-center space-x-2">
         <input
@@ -97,11 +92,11 @@ export function ConfigForm({
         </label>
       </div>
 
-      <div className="flex gap-2 pt-2">
-        <button
+      <div className="flex gap-3 pt-2">
+        <Button
+          color="blue"
           onClick={onConnect}
-          disabled={!isValid || isLoading}
-          className="flex-1 bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 disabled:from-gray-600 disabled:to-gray-700 disabled:cursor-not-allowed text-white px-4 py-2 rounded-lg font-medium transition flex items-center justify-center gap-2 shadow-lg shadow-blue-500/20 cursor-pointer"
+          className={`flex-1 justify-center ${!isValid || isLoading ? 'opacity-50 cursor-not-allowed' : ''}`}
         >
           {isLoading ? (
             <>
@@ -129,7 +124,7 @@ export function ConfigForm({
           ) : (
             <>
               <svg
-                className="w-5 h-5"
+                className="w-4 h-4"
                 fill="none"
                 stroke="currentColor"
                 viewBox="0 0 24 24"
@@ -144,11 +139,8 @@ export function ConfigForm({
               Connect
             </>
           )}
-        </button>
-        <button
-          onClick={onClear}
-          className="bg-gradient-to-r from-red-600 to-rose-600 hover:from-red-700 hover:to-rose-700 rounded-lg px-4 py-2 text-white font-medium transition flex items-center gap-2 shadow-lg shadow-red-500/30 cursor-pointer"
-        >
+        </Button>
+        <Button color="red" onClick={onClear}>
           <svg
             className="w-4 h-4"
             fill="none"
@@ -163,8 +155,8 @@ export function ConfigForm({
             />
           </svg>
           Clear
-        </button>
+        </Button>
       </div>
-    </div>
+    </GlassPanel>
   );
 }

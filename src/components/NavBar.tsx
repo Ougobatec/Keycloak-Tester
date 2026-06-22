@@ -1,3 +1,7 @@
+import { GlassPanel } from './GlassPanel';
+import { Button } from './Button';
+import { Logo } from './Logo';
+
 interface NavBarProps {
   isConnected: boolean;
   userName?: string;
@@ -16,43 +20,21 @@ export function NavBar({
   onShowUserMenu,
 }: NavBarProps) {
   return (
-    <nav className="fixed top-0 left-0 right-0 z-50 bg-gradient-to-r from-slate-800/30 via-slate-800/20 to-slate-800/30 backdrop-blur-md border-b border-white/10">
+    <GlassPanel
+      border="border-b"
+      rounded="none"
+      padding="none"
+      className="fixed top-0 left-0 right-0 z-50"
+    >
       <div className="max-w-7xl mx-auto px-6 py-4">
         <div className="flex items-center justify-between">
-          {/* Logo and title */}
-          <div className="flex items-center gap-3">
-            <div className="bg-gradient-to-br from-blue-600 to-purple-600 p-2 rounded-lg shadow-lg shadow-blue-500/20">
-              <svg
-                className="w-6 h-6 text-white"
-                fill="none"
-                stroke="currentColor"
-                viewBox="0 0 24 24"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth={2}
-                  d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"
-                />
-              </svg>
-            </div>
-            <h1 className="text-2xl font-semibold text-white">
-              Keycloak{' '}
-              <span className="font-light bg-gradient-to-r from-blue-400 to-purple-400 bg-clip-text text-transparent">
-                Tester
-              </span>
-            </h1>
-          </div>
+          <Logo />
 
-          {/* Actions */}
           <div className="flex items-center gap-3">
             {!isConnected ? (
-              <button
-                onClick={onConnect}
-                className="bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white px-6 py-2 rounded-lg font-medium transition flex items-center gap-2 shadow-lg shadow-blue-500/20 cursor-pointer"
-              >
+              <Button color="blue" onClick={onConnect}>
                 <svg
-                  className="w-5 h-5"
+                  className="w-4 h-4"
                   fill="none"
                   stroke="currentColor"
                   viewBox="0 0 24 24"
@@ -65,15 +47,12 @@ export function NavBar({
                   />
                 </svg>
                 Connect
-              </button>
+              </Button>
             ) : (
               <>
-                <button
-                  onClick={onShowUserMenu}
-                  className="bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white px-4 py-2 rounded-lg font-medium transition flex items-center gap-2 shadow-lg shadow-blue-500/20 cursor-pointer"
-                >
+                <Button color="blue" onClick={onShowUserMenu}>
                   <svg
-                    className="w-5 h-5"
+                    className="w-4 h-4"
                     fill="currentColor"
                     viewBox="0 0 20 20"
                   >
@@ -84,12 +63,9 @@ export function NavBar({
                     />
                   </svg>
                   {userName || 'User'}
-                </button>
+                </Button>
 
-                <button
-                  onClick={onRefresh}
-                  className="bg-gradient-to-r from-emerald-600 to-teal-600 hover:from-emerald-700 hover:to-teal-700 text-white px-4 py-2 rounded-lg font-medium transition flex items-center gap-2 shadow-lg shadow-emerald-500/20 cursor-pointer"
-                >
+                <Button color="emerald" onClick={onRefresh}>
                   <svg
                     className="w-4 h-4"
                     fill="none"
@@ -104,12 +80,9 @@ export function NavBar({
                     />
                   </svg>
                   Refresh
-                </button>
+                </Button>
 
-                <button
-                  onClick={onDisconnect}
-                  className="bg-gradient-to-r from-red-600 to-rose-600 hover:from-red-700 hover:to-rose-700 text-white px-4 py-2 rounded-lg font-medium transition flex items-center gap-2 shadow-lg shadow-red-500/30 cursor-pointer"
-                >
+                <Button color="red" onClick={onDisconnect}>
                   <svg
                     className="w-4 h-4"
                     fill="none"
@@ -124,12 +97,12 @@ export function NavBar({
                     />
                   </svg>
                   Disconnect
-                </button>
+                </Button>
               </>
             )}
           </div>
         </div>
       </div>
-    </nav>
+    </GlassPanel>
   );
 }
