@@ -3,6 +3,7 @@ import type { KeycloakConfig, TokenInfo } from './types';
 import {
   copyToClipboard,
   formatTokenExpiration,
+  decodeJwt,
   connectToKeycloak,
   disconnectFromKeycloak,
   refreshKeycloakToken,
@@ -523,6 +524,20 @@ function App() {
                           )}
                         </span>
                       )}
+                    {tokenType === 'refreshToken' &&
+                      tokens.refreshToken &&
+                      (() => {
+                        const decoded = decodeJwt(tokens.refreshToken);
+                        const exp =
+                          decoded && typeof decoded.exp === 'number'
+                            ? decoded.exp
+                            : null;
+                        return exp ? (
+                          <span className="text-xs text-gray-600 bg-gray-100 px-2 py-1 rounded">
+                            {formatTokenExpiration(exp, currentTime)}
+                          </span>
+                        ) : null;
+                      })()}
                     <button
                       onClick={() =>
                         copyToClipboard(
@@ -555,7 +570,9 @@ function App() {
                   </code>
                 </div>
 
-                {(tokenType === 'accessToken' || tokenType === 'idToken') && (
+                {(tokenType === 'accessToken' ||
+                  tokenType === 'idToken' ||
+                  tokenType === 'refreshToken') && (
                   <div className="mt-4">
                     <h4 className="text-sm font-medium text-gray-700 mb-2">
                       Decoded content:
@@ -565,7 +582,9 @@ function App() {
                         {JSON.stringify(
                           tokenType === 'accessToken'
                             ? tokens.tokenParsed
-                            : tokens.idTokenParsed,
+                            : tokenType === 'idToken'
+                              ? tokens.idTokenParsed
+                              : decodeJwt(tokens.refreshToken || '') || {},
                           null,
                           2
                         )}

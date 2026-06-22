@@ -97,6 +97,30 @@ export const formatTokenExpiration = (
   }
 };
 
+// Decode a JWT payload safely and return parsed object or null
+export const decodeJwt = (token: string): Record<string, unknown> | null => {
+  if (!token) return null;
+  try {
+    const parts = token.split('.');
+    if (parts.length < 2) return null;
+    const base64 = parts[1].replace(/-/g, '+').replace(/_/g, '/');
+    // Pad base64 string if necessary
+    const pad = base64.length % 4;
+    const padded =
+      base64 + (pad === 2 ? '==' : pad === 3 ? '=' : pad === 1 ? '===' : '');
+    const json = decodeURIComponent(
+      atob(padded)
+        .split('')
+        .map((c) => '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2))
+        .join('')
+    );
+    return JSON.parse(json);
+  } catch (error) {
+    console.warn('decodeJwt failed:', error);
+    return null;
+  }
+};
+
 // Function to validate configuration
 export const validateConfig = (config: KeycloakConfig): string[] => {
   const errors: string[] = [];
