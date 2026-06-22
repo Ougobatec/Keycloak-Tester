@@ -104,6 +104,8 @@ export function useKeycloak() {
     });
   };
 
+  const clearError = () => setError(null);
+
   return {
     config,
     setConfig,
@@ -114,5 +116,6 @@ export function useKeycloak() {
     disconnect,
     refresh,
     clearConfig,
+    clearError,
   };
 }

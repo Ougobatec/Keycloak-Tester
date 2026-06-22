@@ -3,6 +3,7 @@ import { ConfigForm } from './components/ConfigForm';
 import { NavBar } from './components/NavBar';
 import { UserMenu } from './components/UserMenu';
 import { TokenDisplay } from './components/TokenDisplay';
+import { Toast } from './components/Toast';
 import { useKeycloak } from './hooks/useKeycloak';
 import { useTimer } from './hooks/useTimer';
 import { formatExpiration } from './utils/helpers';
@@ -18,6 +19,7 @@ function App() {
     disconnect,
     refresh,
     clearConfig,
+    clearError,
   } = useKeycloak();
   const [showUserMenu, setShowUserMenu] = useState(false);
   const [refreshMessage, setRefreshMessage] = useState<string | null>(null);
@@ -26,6 +28,12 @@ function App() {
   useTimer(!!tokens);
 
   const isConnected = !!tokens;
+
+  const handleConnect = async () => {
+    await connect();
+    // Auto-hide error after 4s (if any error occurred)
+    setTimeout(() => clearError(), 4000);
+  };
 
   const handleRefresh = async () => {
     const result = await refresh();
@@ -45,7 +53,7 @@ function App() {
       <NavBar
         isConnected={isConnected}
         userName={tokens?.tokenParsed.name}
-        onConnect={connect}
+        onConnect={handleConnect}
         onDisconnect={disconnect}
         onRefresh={handleRefresh}
         onShowUserMenu={() => setShowUserMenu(true)}
@@ -60,60 +68,14 @@ function App() {
         />
       )}
 
-      {/* Refresh success popup */}
-      {refreshMessage && (
-        <div className="fixed bottom-6 right-6 z-50 animate-slide-up">
-          <div className="bg-slate-800/30 backdrop-blur-md border border-green-500/40 rounded-lg p-4 shadow-2xl max-w-sm">
-            <div className="flex items-center gap-3">
-              <div className="bg-green-500/20 p-2 rounded-lg">
-                <svg
-                  className="w-5 h-5 text-green-400"
-                  fill="none"
-                  stroke="currentColor"
-                  viewBox="0 0 24 24"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth={2}
-                    d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"
-                  />
-                </svg>
-              </div>
-              <p className="text-white font-medium">{refreshMessage}</p>
-            </div>
-          </div>
-        </div>
-      )}
+      {/* Toast notifications (bottom-right) */}
+      <Toast message={refreshMessage} color="green" />
+      <Toast message={error} color="red" />
 
       {/* Main Content */}
       <div className="max-w-7xl mx-auto px-6 py-8 space-y-8">
-        {/* Error messages */}
-        {error && (
-          <div className="bg-red-500/10 backdrop-blur-sm border border-red-500/40 rounded-lg p-4">
-            <div className="flex items-center gap-3">
-              <div className="bg-red-500/20 p-2 rounded-lg">
-                <svg
-                  className="w-5 h-5 text-red-400"
-                  fill="none"
-                  stroke="currentColor"
-                  viewBox="0 0 24 24"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth={2}
-                    d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
-                  />
-                </svg>
-              </div>
-              <p className="text-red-200 font-medium">{error}</p>
-            </div>
-          </div>
-        )}
-
         {/* Welcome message when not connected */}
-        {!isConnected && !error && (
+        {!isConnected && (
           <div className="space-y-6">
             <div className="text-center">
               <h2 className="text-2xl font-semibold text-white mb-2">
@@ -133,7 +95,7 @@ function App() {
             <ConfigForm
               config={config}
               onChange={setConfig}
-              onConnect={connect}
+              onConnect={handleConnect}
               onClear={clearConfig}
               isLoading={isLoading}
             />
