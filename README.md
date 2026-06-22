@@ -1,89 +1,89 @@
 # Keycloak Tester
 
-Une application React pour tester et explorer les configurations Keycloak, visualiser les tokens et leurs contenus.
+A single-page app designed to quickly test Keycloak authentication, check user information, and view generated tokens.
 
 ## 🚀 Installation
 
-1. **Installer les dépendances** :
+1. **Install dependencies**:
 
 ```bash
 npm install
 ```
 
-2. **Configuration (optionnel)** :
+2. **Configuration (optional)**:
 
 ```bash
-# Copier le fichier d'exemple
+# Copy example file
 cp .env.example .env
 
-# Modifier le port si nécessaire
+# Modify port if necessary
 PORT=3001
 ```
 
-3. **Lancer l'application** :
+3. **Start the application**:
 
 ```bash
-# Port par défaut (3001)
+# Default port (3001)
 npm run dev
 
-# Port personnalisé via variable d'environnement
+# Custom port via environment variable
 PORT=3002 npm run dev
 ```
 
-## ⚙️ Variables d'environnement
+## ⚙️ Environment Variables
 
-| Variable | Description                      | Défaut |
-| -------- | -------------------------------- | ------ |
-| `PORT`   | Port du serveur de développement | `3001` |
+| Variable | Description             | Default |
+| -------- | ----------------------- | ------- |
+| `PORT`   | Development server port | `3001`  |
 
-## 📋 Fonctionnalités
+## 📋 Features
 
-### ⚙️ Configuration Keycloak
+### ⚙️ Keycloak Configuration
 
-- **URL Keycloak** : URL de votre serveur Keycloak (ex: `https://auth.example.com`)
-- **Realm** : Nom du realm configuré dans Keycloak
-- **Client ID** : Identifiant du client public configuré dans Keycloak
+- **Keycloak URL**: URL of your Keycloak server (e.g., `https://auth.example.com`)
+- **Realm**: Name of the realm configured in Keycloak
+- **Client ID**: Identifier of the public client configured in Keycloak
 
-### 🔐 Authentification
+### 🔐 Authentication
 
-- **Connexion SSO** : Connexion via Keycloak avec redirection
-- **Déconnexion** : Déconnexion complète avec nettoyage de session
-- **Rafraîchissement** : Rafraîchissement automatique des tokens
+- **SSO Login**: Login via Keycloak with redirection
+- **Logout**: Complete logout with session cleanup
+- **Refresh**: Automatic token refresh
 
-### 📊 Visualisation des Tokens
+### 📊 Token Visualization
 
-- **Access Token** : Token d'accès avec payload décodé
-- **Refresh Token** : Token de rafraîchissement
-- **ID Token** : Token d'identité avec informations utilisateur
-- **Expiration** : Affichage du temps restant avant expiration
-- **Copie** : Boutons pour copier les tokens dans le presse-papier
+- **Access Token**: Access token with decoded payload
+- **Refresh Token**: Refresh token
+- **ID Token**: Identity token with user information
+- **Expiration**: Display of remaining time before expiration
+- **Copy**: Buttons to copy tokens to clipboard
 
-### 👤 Informations Utilisateur
+### 👤 User Information
 
-- **Profil** : Nom, email, username
-- **Rôles** : Rôles assignés dans le realm
-- **ID Utilisateur** : Identifiant unique de l'utilisateur
+- **Profile**: Name, email, username
+- **Roles**: Roles assigned in the realm
+- **User ID**: Unique user identifier
 
-## 🔧 Configuration Keycloak
+## 🔧 Keycloak Configuration
 
-### Prérequis dans Keycloak
+### Prerequisites in Keycloak
 
-1. **Créer un Client** :
-   - Type : `public`
-   - Client ID : `keycloak-tester` (ou votre choix)
-   - Root URL : `http://localhost:{PORT}` (URL de votre app)
-   - Valid redirect URIs : `http://localhost:{PORT}/*`
-   - Web origins : `http://localhost:{PORT}`
+1. **Create a Client**:
+   - Type: `public`
+   - Client ID: `keycloak-tester` (or your choice)
+   - Root URL: `http://localhost:{PORT}` (URL of your app)
+   - Valid redirect URIs: `http://localhost:{PORT}/*`
+   - Web origins: `http://localhost:{PORT}`
 
-[Remplacez `{PORT}` par le port utilisé, ex: `3001`]
+[Replace `{PORT}` with the port used, e.g., `3001`]
 
-2. **Configurer le Client** :
-   - Access Type : `public`
-   - Standard Flow Enabled : `ON`
-   - Direct Access Grants Enabled : `ON` (optionnel)
-   - Web origins : `*` (ou spécifique à votre domaine)
+2. **Configure the Client**:
+   - Access Type: `public`
+   - Standard Flow Enabled: `ON`
+   - Direct Access Grants Enabled: `ON` (optional)
+   - Web origins: `*` (or specific to your domain)
 
-### Exemple de Configuration
+### Configuration Example
 
 ```javascript
 {
@@ -95,10 +95,10 @@ PORT=3002 npm run dev
 
 ## 📱 Usage
 
-1. **Saisir la configuration** Keycloak dans les champs
-2. **Cliquer sur "Se connecter"** pour lancer l'authentification
-3. **Se connecter** via l'interface Keycloak
-4. **Explorer les tokens** et informations utilisateur
-5. **Copier les tokens** pour les utiliser dans d'autres applications
-6. **Rafraîchir** les tokens si nécessaire
-7. **Se déconnecter** pour nettoyer la session
+1. **Enter Keycloak configuration** in the fields
+2. **Click "Connect"** to start authentication
+3. **Log in** via the Keycloak interface
+4. **Explore tokens** and user information
+5. **Copy tokens** to use in other applications
+6. **Refresh** tokens if necessary
+7. **Logout** to clean up the session

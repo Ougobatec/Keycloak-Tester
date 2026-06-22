@@ -23,14 +23,14 @@ function App() {
   const [disableSilentSSO, setDisableSilentSSO] = useState(false);
   const [currentTime, setCurrentTime] = useState(Date.now());
 
-  // Charger la configuration sauvegardée au démarrage
+  // Load saved configuration at startup
   useEffect(() => {
     const savedConfig = getInitialConfig();
     setConfig(savedConfig);
     setDisableSilentSSO(savedConfig.disableSilentSSO || false);
   }, []);
 
-  // Vérifier si l'utilisateur est déjà connecté après chargement de la config
+  // Check if user is already connected after config loading
   useEffect(() => {
     const checkAuth = async () => {
       if (config.url && config.realm && config.clientId) {
@@ -42,7 +42,7 @@ function App() {
           if (existingTokens) {
             setTokens(existingTokens);
             setIsConnected(true);
-            // Nettoyer l'URL si nécessaire
+            // Clean URL if necessary
             if (
               window.location.search.includes('state=') ||
               window.location.hash.includes('state=')
@@ -55,7 +55,7 @@ function App() {
             }
           }
         } catch (error) {
-          console.warn('Erreur lors de la vérification automatique:', error);
+          console.warn('Error during automatic check:', error);
         }
       }
     };
@@ -63,7 +63,7 @@ function App() {
     checkAuth();
   }, [config, disableSilentSSO]);
 
-  // Sauvegarder automatiquement la configuration quand elle change
+  // Automatically save configuration when it changes
   useEffect(() => {
     if (config.url || config.realm || config.clientId) {
       const configToSave = { ...config, disableSilentSSO };
@@ -71,7 +71,7 @@ function App() {
     }
   }, [config, disableSilentSSO]);
 
-  // Timer pour mettre à jour les compteurs d'expiration toutes les secondes
+  // Timer to update expiration counters every second
   useEffect(() => {
     if (tokens) {
       const interval = setInterval(() => {
@@ -126,17 +126,15 @@ function App() {
       try {
         const result = await refreshKeycloakToken();
         setTokens(result.tokenInfo);
-        setError(null); // Effacer les erreurs précédentes
-        setSuccessMessage(result.message); // Afficher le message de succès
+        setError(null); // Clear previous errors
+        setSuccessMessage(result.message); // Display success message
 
-        // Effacer le message de succès après 3 secondes
+        // Clear success message after 3 seconds
         setTimeout(() => setSuccessMessage(null), 3000);
 
         console.log(result.message);
       } catch (err) {
-        setError(
-          err instanceof Error ? err.message : 'Erreur lors du rafraîchissement'
-        );
+        setError(err instanceof Error ? err.message : 'Error during refresh');
         setSuccessMessage(null);
       }
     }
@@ -183,7 +181,7 @@ function App() {
             </div>
           </div>
           <p className="text-gray-600">
-            Testez votre configuration Keycloak et explorez vos tokens
+            Test your Keycloak configuration and explore your tokens
           </p>
         </div>
 
@@ -201,13 +199,13 @@ function App() {
                 clipRule="evenodd"
               />
             </svg>
-            Configuration Keycloak
+            Keycloak Configuration
           </h2>
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-4">
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-1">
-                URL Keycloak
+                Keycloak URL
               </label>
               <input
                 type="url"
@@ -266,7 +264,7 @@ function App() {
 
           <div className="mb-4">
             <h3 className="text-sm font-medium text-gray-700 mb-2">
-              Options avancées
+              Advanced Options
             </h3>
             <label className="flex items-center space-x-2">
               <input
@@ -277,7 +275,7 @@ function App() {
                 disabled={isConnected}
               />
               <span className="text-sm text-gray-600">
-                Désactiver le SSO silencieux (résout certains problèmes CSP)
+                Disable silent SSO (resolves some CSP issues)
               </span>
             </label>
           </div>
@@ -330,14 +328,14 @@ function App() {
                       />
                     </svg>
                   )}
-                  {isLoading ? 'Connexion...' : 'Se connecter'}
+                  {isLoading ? 'Connecting...' : 'Connect'}
                 </button>
 
                 <button
                   onClick={clearSavedConfig}
                   disabled={isLoading}
                   className="px-4 py-2 bg-gray-500 text-white rounded-md hover:bg-gray-600 focus:outline-none focus:ring-2 focus:ring-gray-500 focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed flex items-center gap-2"
-                  title="Effacer la configuration sauvegardée"
+                  title="Clear saved configuration"
                 >
                   <svg
                     className="w-4 h-4"
@@ -352,7 +350,7 @@ function App() {
                       d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"
                     />
                   </svg>
-                  Effacer
+                  Clear
                 </button>
               </>
             ) : (
@@ -373,7 +371,7 @@ function App() {
                     d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"
                   />
                 </svg>
-                Se déconnecter
+                Disconnect
               </button>
             )}
 
@@ -391,7 +389,7 @@ function App() {
                       clipRule="evenodd"
                     />
                   </svg>
-                  <span className="text-sm font-medium">Connecté</span>
+                  <span className="text-sm font-medium">Connected</span>
                 </div>
                 <button
                   onClick={handleRefreshToken}
@@ -410,7 +408,7 @@ function App() {
                       d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"
                     />
                   </svg>
-                  Rafraîchir
+                  Refresh
                 </button>
               </div>
             )}
@@ -434,13 +432,13 @@ function App() {
                     clipRule="evenodd"
                   />
                 </svg>
-                Informations utilisateur
+                User Information
               </h2>
 
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
                 <div>
                   <label className="block text-sm font-medium text-gray-500">
-                    Nom
+                    Name
                   </label>
                   <p className="text-gray-900">
                     {tokens.tokenParsed.name || 'N/A'}
@@ -472,7 +470,7 @@ function App() {
                 </div>
                 <div>
                   <label className="block text-sm font-medium text-gray-500">
-                    Rôles
+                    Roles
                   </label>
                   <div className="flex flex-wrap gap-1 mt-1">
                     {tokens.tokenParsed.realm_access?.roles?.map(
@@ -546,7 +544,7 @@ function App() {
                           d="M8 5H6a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2v-1M8 5a2 2 0 002 2h2a2 2 0 002-2M8 5a2 2 0 012-2h2a2 2 0 012 2m0 0h2a2 2 0 012 2v3m2 4H10m0 0l3-3m-3 3l3 3"
                         />
                       </svg>
-                      Copier
+                      Copy
                     </button>
                   </div>
                 </div>
@@ -560,7 +558,7 @@ function App() {
                 {(tokenType === 'accessToken' || tokenType === 'idToken') && (
                   <div className="mt-4">
                     <h4 className="text-sm font-medium text-gray-700 mb-2">
-                      Contenu décodé :
+                      Decoded content:
                     </h4>
                     <div className="bg-gray-50 rounded-md p-4 overflow-x-auto">
                       <pre className="text-sm text-gray-800">
