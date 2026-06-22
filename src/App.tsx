@@ -1,12 +1,19 @@
-import { useState } from 'react';
+import { useState, useCallback, useEffect } from 'react';
 import { ConfigForm } from './components/ConfigForm';
 import { NavBar } from './components/NavBar';
 import { UserMenu } from './components/UserMenu';
 import { TokenDisplay } from './components/TokenDisplay';
-import { Toast } from './components/Toast';
+import { ToastContainer } from './components/ToastContainer';
 import { ExpirationTimer } from './components/ExpirationTimer';
 import { Loader } from './components/Loader';
 import { useKeycloak } from './hooks/useKeycloak';
+import type { ColorName } from './styles/colors';
+
+interface ToastItem {
+  id: string;
+  message: string;
+  color: ColorName;
+}
 
 function App() {
   const {
@@ -20,10 +27,21 @@ function App() {
     disconnect,
     refresh,
     clearConfig,
-    clearError,
   } = useKeycloak();
   const [showUserMenu, setShowUserMenu] = useState(false);
-  const [refreshMessage, setRefreshMessage] = useState<string | null>(null);
+  const [toasts, setToasts] = useState<ToastItem[]>([]);
+
+  const addToast = useCallback(
+    (message: string, color: ColorName = 'emerald') => {
+      const id = Date.now().toString();
+      setToasts((prev) => [...prev, { id, message, color }]);
+    },
+    []
+  );
+
+  const removeToast = useCallback((id: string) => {
+    setToasts((prev) => prev.filter((t) => t.id !== id));
+  }, []);
 
   const isConnected = !!tokens;
 
@@ -35,12 +53,18 @@ function App() {
     const result = await refresh();
     if (result.success) {
       if (result.refreshed) {
-        setRefreshMessage('Tokens refreshed successfully!');
+        addToast('Tokens refreshed successfully!', 'emerald');
       } else {
-        setRefreshMessage('Tokens are still valid, no need to refresh.');
+        addToast('Tokens are still valid, no need to refresh.', 'emerald');
       }
     }
   };
+
+  useEffect(() => {
+    if (error) {
+      addToast(error, 'red');
+    }
+  }, [error, addToast]);
 
   return (
     <div className="min-h-screen bg-linear-to-br from-slate-900 via-blue-950 to-slate-900">
@@ -65,12 +89,7 @@ function App() {
       )}
 
       {/* Toast notifications */}
-      <Toast
-        message={refreshMessage}
-        color="emerald"
-        onClose={() => setRefreshMessage(null)}
-      />
-      <Toast message={error} color="red" onClose={clearError} />
+      <ToastContainer toasts={toasts} onRemove={removeToast} />
 
       {/* Initialization loader */}
       {isInitializing && <Loader message="Vérification de la connexion..." />}

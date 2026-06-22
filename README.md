@@ -14,15 +14,15 @@ Perfect for developers setting up Keycloak for the first time or testing authent
 
 **Configuration Screen** - Fill in your Keycloak connection details
 
-<img src="./assets/image1.png" alt="Configuration Screen" width="600">
+<img src="./assets/image1.png" alt="Configuration Screen" width="500">
 
 **Token Display** - View and decode all JWT tokens with live expiration timers
 
-<img src="./assets/image2.png" alt="Token Display" width="600">
+<img src="./assets/image2.png" alt="Token Display" width="500">
 
 **User Profile** - Inspect user claims and assigned realm roles
 
-<img src="./assets/image3.png" alt="User Profile" width="600">
+<img src="./assets/image3.png" alt="User Profile" width="500">
 
 ## 🚀 Quick Start
 
