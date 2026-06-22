@@ -3,11 +3,17 @@ import type { ParsedToken } from '../types';
 
 interface UserMenuProps {
   user: ParsedToken;
+  accessToken: ParsedToken;
   isOpen: boolean;
   onClose: () => void;
 }
 
-export function UserMenu({ user, isOpen, onClose }: UserMenuProps) {
+export function UserMenu({
+  user,
+  accessToken,
+  isOpen,
+  onClose,
+}: UserMenuProps) {
   if (!isOpen) return null;
 
   const InfoRow = ({
@@ -70,7 +76,7 @@ export function UserMenu({ user, isOpen, onClose }: UserMenuProps) {
       onClick={onClose}
     >
       <div
-        className="bg-slate-800/30 backdrop-blur-md border border-white/20 rounded-xl p-6 max-w-md w-full shadow-2xl"
+        className="bg-slate-800/30 backdrop-blur-sm border border-white/10 rounded-lg p-6 max-w-md w-full shadow-2xl"
         onClick={(e) => e.stopPropagation()}
       >
         {/* Header */}
@@ -202,42 +208,43 @@ export function UserMenu({ user, isOpen, onClose }: UserMenuProps) {
           />
 
           {/* Rôles */}
-          {user.realm_access?.roles && user.realm_access.roles.length > 0 && (
-            <div className="pt-2">
-              <div className="p-3 bg-white/5 rounded-lg border border-white/10">
-                <div className="flex items-center gap-3 mb-3">
-                  <div className="bg-gradient-to-br from-indigo-600 to-violet-600 p-2 rounded-lg shadow-lg shadow-indigo-500/20">
-                    <svg
-                      className="w-4 h-4 text-white"
-                      fill="none"
-                      stroke="currentColor"
-                      viewBox="0 0 24 24"
-                    >
-                      <path
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        strokeWidth={2}
-                        d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"
-                      />
-                    </svg>
-                  </div>
-                  <span className="text-sm text-white/90 font-medium">
-                    Assigned roles
-                  </span>
-                </div>
-                <div className="flex flex-wrap gap-2">
-                  {user.realm_access.roles.map((role) => (
-                    <span
-                      key={role}
-                      className="bg-gradient-to-r from-indigo-600/20 to-violet-600/20 border border-indigo-500/30 rounded-full px-3 py-1 text-xs text-indigo-200 font-medium"
-                    >
-                      {role}
+          {accessToken.realm_access?.roles &&
+            accessToken.realm_access.roles.length > 0 && (
+              <div className="pt-2">
+                <div className="p-3 bg-white/5 rounded-lg border border-white/10">
+                  <div className="flex items-center gap-3 mb-3">
+                    <div className="bg-gradient-to-br from-indigo-600 to-violet-600 p-2 rounded-lg shadow-lg shadow-indigo-500/20">
+                      <svg
+                        className="w-4 h-4 text-white"
+                        fill="none"
+                        stroke="currentColor"
+                        viewBox="0 0 24 24"
+                      >
+                        <path
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          strokeWidth={2}
+                          d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"
+                        />
+                      </svg>
+                    </div>
+                    <span className="text-sm text-white/90 font-medium">
+                      Assigned roles
                     </span>
-                  ))}
+                  </div>
+                  <div className="flex flex-wrap gap-2">
+                    {accessToken.realm_access.roles.map((role) => (
+                      <span
+                        key={role}
+                        className="bg-gradient-to-r from-indigo-600/20 to-violet-600/20 border border-indigo-500/30 rounded-full px-3 py-1 text-xs text-indigo-200 font-medium"
+                      >
+                        {role}
+                      </span>
+                    ))}
+                  </div>
                 </div>
               </div>
-            </div>
-          )}
+            )}
         </div>
       </div>
     </div>

@@ -62,7 +62,8 @@ function App() {
       {/* User Menu Modal */}
       {isConnected && tokens && (
         <UserMenu
-          user={tokens.tokenParsed}
+          user={tokens.idTokenParsed || tokens.tokenParsed}
+          accessToken={tokens.tokenParsed}
           isOpen={showUserMenu}
           onClose={() => setShowUserMenu(false)}
         />
