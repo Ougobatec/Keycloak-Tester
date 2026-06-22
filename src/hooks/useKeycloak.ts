@@ -12,13 +12,15 @@ export function useKeycloak() {
   });
   const [tokens, setTokens] = useState<TokenInfo | null>(null);
   const [isLoading, setIsLoading] = useState(false);
+  const [isInitializing, setIsInitializing] = useState(true);
   const [error, setError] = useState<string | null>(null);
-  const isInitializing = useRef(false);
+  const hasInitialized = useRef(false);
 
   // Load config on startup and check auth once
   useEffect(() => {
     // Prevent multiple simultaneous inits
-    if (isInitializing.current) return;
+    if (hasInitialized.current) return;
+    hasInitialized.current = true;
 
     const saved = storage.load();
     if (saved) {
@@ -26,7 +28,6 @@ export function useKeycloak() {
 
       // Check auth only if we have a complete config
       if (saved.url && saved.realm && saved.clientId) {
-        isInitializing.current = true;
         (async () => {
           try {
             const authenticated = await keycloakService.init(saved);
@@ -36,10 +37,15 @@ export function useKeycloak() {
             }
           } catch (err) {
             console.error('Startup auth check error:', err);
+          } finally {
+            setIsInitializing(false);
           }
         })();
+        return;
       }
     }
+    // No saved config or incomplete config - end initialization immediately
+    setIsInitializing(false);
   }, []); // Empty array = runs only once on mount
 
   // Save config automatically
@@ -112,6 +118,7 @@ export function useKeycloak() {
     setConfig,
     tokens,
     isLoading,
+    isInitializing,
     error,
     connect,
     disconnect,
