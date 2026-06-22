@@ -1,3 +1,4 @@
+import { useEffect } from 'react';
 import { copyToClipboard } from '../utils/helpers';
 import type { ParsedToken } from '../types';
 
@@ -14,6 +15,20 @@ export function UserMenu({
   isOpen,
   onClose,
 }: UserMenuProps) {
+  // Prevent body scrolling when modal is open
+  useEffect(() => {
+    if (isOpen) {
+      document.body.classList.add('overflow-hidden');
+    } else {
+      document.body.classList.remove('overflow-hidden');
+    }
+
+    // Cleanup on unmount
+    return () => {
+      document.body.classList.remove('overflow-hidden');
+    };
+  }, [isOpen]);
+
   if (!isOpen) return null;
 
   const InfoRow = ({
