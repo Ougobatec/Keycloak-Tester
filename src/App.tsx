@@ -1,19 +1,13 @@
-import { useState, useCallback, useEffect } from 'react';
+import { useState, useEffect } from 'react';
+import { Toaster, toast } from 'sonner';
+import { useKeycloak } from './hooks/useKeycloak';
 import { ConfigForm } from './components/ConfigForm';
-import { NavBar } from './components/NavBar';
-import { UserMenu } from './components/UserMenu';
-import { TokenDisplay } from './components/TokenDisplay';
-import { ToastContainer } from './components/ToastContainer';
 import { ExpirationTimer } from './components/ExpirationTimer';
 import { Loader } from './components/Loader';
-import { useKeycloak } from './hooks/useKeycloak';
-import type { ColorName } from './styles/colors';
-
-interface ToastItem {
-  id: string;
-  message: string;
-  color: ColorName;
-}
+import { NavBar } from './components/NavBar';
+import { UserMenu } from './components/UserMenu';
+import { Toast } from './components/Toast';
+import { TokenDisplay } from './components/TokenDisplay';
 
 function App() {
   const {
@@ -29,19 +23,6 @@ function App() {
     clearConfig,
   } = useKeycloak();
   const [showUserMenu, setShowUserMenu] = useState(false);
-  const [toasts, setToasts] = useState<ToastItem[]>([]);
-
-  const addToast = useCallback(
-    (message: string, color: ColorName = 'emerald') => {
-      const id = Date.now().toString();
-      setToasts((prev) => [...prev, { id, message, color }]);
-    },
-    []
-  );
-
-  const removeToast = useCallback((id: string) => {
-    setToasts((prev) => prev.filter((t) => t.id !== id));
-  }, []);
 
   const isConnected = !!tokens;
 
@@ -53,18 +34,32 @@ function App() {
     const result = await refresh();
     if (result.success) {
       if (result.refreshed) {
-        addToast('Tokens refreshed successfully!', 'emerald');
+        toast.custom((t) => (
+          <Toast
+            message="Tokens refreshed successfully!"
+            color="emerald"
+            onClose={() => toast.dismiss(t)}
+          />
+        ));
       } else {
-        addToast('Tokens are still valid, no need to refresh.', 'emerald');
+        toast.custom((t) => (
+          <Toast
+            message="Tokens are still valid, no need to refresh."
+            color="blue"
+            onClose={() => toast.dismiss(t)}
+          />
+        ));
       }
     }
   };
 
   useEffect(() => {
     if (error) {
-      addToast(error, 'red');
+      toast.custom((t) => (
+        <Toast message={error} color="red" onClose={() => toast.dismiss(t)} />
+      ));
     }
-  }, [error, addToast]);
+  }, [error]);
 
   return (
     <div className="min-h-screen bg-linear-to-br from-slate-900 via-blue-950 to-slate-900">
@@ -88,16 +83,13 @@ function App() {
         />
       )}
 
-      {/* Toast notifications */}
-      <ToastContainer toasts={toasts} onRemove={removeToast} />
-
       {/* Initialization loader */}
       {isInitializing && <Loader message="Vérification de la connexion..." />}
 
       {/* Main Content - padding-top to compensate for fixed navbar */}
-      <div className="max-w-7xl mx-auto px-6 py-8 pt-28 space-y-8">
+      <div className="max-w-7xl mx-auto px-6 py-6 pt-24 space-y-6">
         {/* Header Section */}
-        <div className="text-center space-y-2">
+        <div className="text-center space-y-2 py-3">
           <h2 className="text-2xl font-semibold text-white">
             {isConnected ? 'Authentication Tokens' : 'Ready to test Keycloak?'}
           </h2>
@@ -206,6 +198,8 @@ function App() {
           </div>
         )}
       </div>
+
+      <Toaster position="bottom-right" expand={true} />
     </div>
   );
 }
