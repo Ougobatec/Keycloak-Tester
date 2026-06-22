@@ -147,7 +147,7 @@ export function ConfigForm({
         </button>
         <button
           onClick={onClear}
-          className="bg-gradient-to-r from-red-600 to-rose-600 hover:from-red-700 hover:to-rose-700 rounded-lg px-4 py-2 text-white font-medium transition flex items-center gap-2 shadow-lg shadow-red-500/20"
+          className="bg-gradient-to-r from-red-600 to-rose-600 hover:from-red-700 hover:to-rose-700 rounded-lg px-4 py-2 text-white font-medium transition flex items-center gap-2 shadow-lg shadow-red-500/30"
         >
           <svg
             className="w-4 h-4"
