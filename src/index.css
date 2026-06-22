@@ -22,6 +22,12 @@
   font-family: 'Afacad', system-ui, Avenir, Helvetica, Arial, sans-serif;
 }
 
+/* Global background to prevent white overscroll */
+html,
+body {
+  background: #0f172a;
+}
+
 /* Animation for popup */
 @keyframes slide-up {
   from {
