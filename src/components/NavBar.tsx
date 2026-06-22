@@ -16,7 +16,7 @@ export function NavBar({
   onShowUserMenu,
 }: NavBarProps) {
   return (
-    <nav className="bg-gradient-to-r from-slate-800/30 via-slate-800/20 to-slate-800/30 backdrop-blur-md border-b border-white/10">
+    <nav className="fixed top-0 left-0 right-0 z-50 bg-gradient-to-r from-slate-800/30 via-slate-800/20 to-slate-800/30 backdrop-blur-md border-b border-white/10">
       <div className="max-w-7xl mx-auto px-6 py-4">
         <div className="flex items-center justify-between">
           {/* Logo and title */}

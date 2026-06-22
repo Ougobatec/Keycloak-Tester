@@ -69,8 +69,8 @@ function App() {
       <Toast message={refreshMessage} color="green" />
       <Toast message={error} color="red" />
 
-      {/* Main Content */}
-      <div className="max-w-7xl mx-auto px-6 py-8 space-y-8">
+      {/* Main Content - padding-top to compensate for fixed navbar */}
+      <div className="max-w-7xl mx-auto px-6 py-8 pt-24 space-y-8">
         {/* Welcome message when not connected */}
         {!isConnected && (
           <div className="space-y-6">

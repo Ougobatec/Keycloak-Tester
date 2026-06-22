@@ -122,11 +122,18 @@ export function UserMenu({
 
   return (
     <div
-      className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/50 backdrop-blur-sm"
+      className="fixed inset-0 z-50 flex items-center justify-center p-4"
       onClick={onClose}
     >
+      {/* Background overlay with separate blur */}
       <div
-        className="bg-slate-800/30 backdrop-blur-sm border border-white/10 rounded-lg p-6 max-w-md w-full shadow-2xl"
+        className="absolute inset-0 bg-black/50 backdrop-blur-[2px]"
+        aria-hidden="true"
+      />
+
+      {/* Modal card with its own backdrop-blur */}
+      <div
+        className="relative bg-slate-800/30 backdrop-blur-sm border border-white/10 rounded-lg p-6 max-w-md w-full shadow-2xl"
         onClick={(e) => e.stopPropagation()}
       >
         {/* Header */}
