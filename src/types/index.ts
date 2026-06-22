@@ -1,4 +1,4 @@
-// Configuration Keycloak
+// Keycloak Configuration
 export interface KeycloakConfig {
   url: string;
   realm: string;
@@ -6,7 +6,7 @@ export interface KeycloakConfig {
   disableSilentSSO: boolean;
 }
 
-// Token JWT décodé
+// Decoded JWT Token
 export interface ParsedToken {
   exp?: number;
   iat?: number;
@@ -20,7 +20,7 @@ export interface ParsedToken {
   [key: string]: unknown;
 }
 
-// Informations des tokens
+// Token Information
 export interface TokenInfo {
   accessToken: string;
   refreshToken?: string;

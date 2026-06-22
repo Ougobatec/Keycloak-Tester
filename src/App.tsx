@@ -22,7 +22,7 @@ function App() {
   const [showUserMenu, setShowUserMenu] = useState(false);
   const [refreshMessage, setRefreshMessage] = useState<string | null>(null);
 
-  // Timer pour mettre à jour les expirations
+  // Timer to update expirations
   useTimer(!!tokens);
 
   const isConnected = !!tokens;
@@ -31,11 +31,9 @@ function App() {
     const result = await refresh();
     if (result.success) {
       if (result.refreshed) {
-        setRefreshMessage('Tokens rafraîchis avec succès !');
+        setRefreshMessage('Tokens refreshed successfully!');
       } else {
-        setRefreshMessage(
-          'Les tokens sont encore valides, pas besoin de rafraîchir.'
-        );
+        setRefreshMessage('Tokens are still valid, no need to refresh.');
       }
       setTimeout(() => setRefreshMessage(null), 4000);
     }
@@ -43,7 +41,7 @@ function App() {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-900 via-blue-950 to-slate-900">
-      {/* NavBar */}
+      {/* Navigation Bar */}
       <NavBar
         isConnected={isConnected}
         userName={tokens?.tokenParsed.name}
@@ -62,7 +60,7 @@ function App() {
         />
       )}
 
-      {/* Popup de succès rafraîchissement */}
+      {/* Refresh success popup */}
       {refreshMessage && (
         <div className="fixed bottom-6 right-6 z-50 animate-slide-up">
           <div className="bg-slate-800/30 backdrop-blur-md border border-green-500/40 rounded-lg p-4 shadow-2xl max-w-sm">
@@ -90,7 +88,7 @@ function App() {
 
       {/* Main Content */}
       <div className="max-w-7xl mx-auto px-6 py-8 space-y-8">
-        {/* Messages d'erreur */}
+        {/* Error messages */}
         {error && (
           <div className="bg-red-500/10 backdrop-blur-sm border border-red-500/40 rounded-lg p-4">
             <div className="flex items-center gap-3">
@@ -119,12 +117,11 @@ function App() {
           <div className="space-y-6">
             <div className="text-center">
               <h2 className="text-2xl font-semibold text-white mb-2">
-                Prêt à tester Keycloak ?
+                Ready to test Keycloak?
               </h2>
               <p className="text-white/60">
-                Configurez vos paramètres Keycloak ci-dessus pour commencer à
-                explorer vos tokens d'authentification et informations
-                utilisateur.
+                Configure your Keycloak settings above to start exploring your
+                authentication tokens and user information.
               </p>
             </div>
           </div>
@@ -148,11 +145,9 @@ function App() {
           <div className="space-y-6">
             <div className="text-center">
               <h2 className="text-2xl font-semibold text-white mb-2">
-                Tokens d'authentification
+                Authentication Tokens
               </h2>
-              <p className="text-white/60">
-                Visualisez et copiez vos tokens JWT
-              </p>
+              <p className="text-white/60">View and copy your JWT tokens</p>
             </div>
 
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">

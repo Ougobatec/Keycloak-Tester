@@ -36,7 +36,7 @@ class KeycloakService {
           : window.location.origin + '/silent-check-sso.html',
       });
 
-      // Nettoyer l'URL après redirection
+      // Clean URL after redirect
       if (
         window.location.search.includes('state=') ||
         window.location.hash.includes('state=')
@@ -50,23 +50,23 @@ class KeycloakService {
 
       return authenticated;
     } catch (error) {
-      console.error('Erreur initialisation Keycloak:', error);
+      console.error('Keycloak initialization error:', error);
       throw error;
     }
   }
 
   async login(): Promise<void> {
-    if (!this.keycloak) throw new Error('Keycloak non initialisé');
+    if (!this.keycloak) throw new Error('Keycloak not initialized');
     await this.keycloak.login({ redirectUri: window.location.origin });
   }
 
   async logout(): Promise<void> {
-    if (!this.keycloak) throw new Error('Keycloak non initialisé');
+    if (!this.keycloak) throw new Error('Keycloak not initialized');
     await this.keycloak.logout({ redirectUri: window.location.origin });
   }
 
   async refresh(): Promise<boolean> {
-    if (!this.keycloak) throw new Error('Keycloak non initialisé');
+    if (!this.keycloak) throw new Error('Keycloak not initialized');
     return await this.keycloak.updateToken(5);
   }
 

@@ -19,7 +19,7 @@ export function NavBar({
     <nav className="bg-gradient-to-r from-slate-800/30 via-slate-800/20 to-slate-800/30 backdrop-blur-md border-b border-white/10">
       <div className="max-w-7xl mx-auto px-6 py-4">
         <div className="flex items-center justify-between">
-          {/* Logo et titre */}
+          {/* Logo and title */}
           <div className="flex items-center gap-3">
             <div className="bg-gradient-to-br from-blue-600 to-purple-600 p-2 rounded-lg shadow-lg shadow-blue-500/20">
               <svg
@@ -64,7 +64,7 @@ export function NavBar({
                     d="M11 16l-4-4m0 0l4-4m-4 4h14m-5 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h7a3 3 0 013 3v1"
                   />
                 </svg>
-                Se connecter
+                Connect
               </button>
             ) : (
               <>
@@ -83,7 +83,7 @@ export function NavBar({
                       clipRule="evenodd"
                     />
                   </svg>
-                  {userName || 'Utilisateur'}
+                  {userName || 'User'}
                 </button>
 
                 <button
@@ -103,7 +103,7 @@ export function NavBar({
                       d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"
                     />
                   </svg>
-                  Rafraîchir
+                  Refresh
                 </button>
 
                 <button
@@ -123,7 +123,7 @@ export function NavBar({
                       d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"
                     />
                   </svg>
-                  Déconnexion
+                  Disconnect
                 </button>
               </>
             )}

@@ -26,7 +26,7 @@ export const formatExpiration = (exp: number): string => {
   const expirationTime = exp * 1000;
   const remaining = expirationTime - now;
 
-  if (remaining <= 0) return 'Expiré';
+  if (remaining <= 0) return 'Expired';
 
   const seconds = Math.floor(remaining / 1000);
   const minutes = Math.floor(seconds / 60);
@@ -59,7 +59,7 @@ export const decodeJWT = (token: string): Record<string, unknown> | null => {
 
     return JSON.parse(json);
   } catch (error) {
-    console.error('Erreur décodage JWT:', error);
+    console.error('JWT decoding error:', error);
     return null;
   }
 };

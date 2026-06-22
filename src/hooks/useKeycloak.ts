@@ -14,7 +14,7 @@ export function useKeycloak() {
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
-  // Charger la config au démarrage
+  // Load config on startup
   useEffect(() => {
     const saved = storage.load();
     if (saved) {
@@ -22,7 +22,7 @@ export function useKeycloak() {
     }
   }, []);
 
-  // Vérifier l'auth au démarrage ou changement de config
+  // Check auth on startup or config change
   useEffect(() => {
     const checkAuth = async () => {
       if (!config.url || !config.realm || !config.clientId) return;
@@ -34,14 +34,14 @@ export function useKeycloak() {
           setTokens(tokensData);
         }
       } catch (err) {
-        console.error('Erreur vérification auth:', err);
+        console.error('Auth verification error:', err);
       }
     };
 
     checkAuth();
   }, [config]);
 
-  // Sauvegarder la config automatiquement
+  // Save config automatically
   useEffect(() => {
     if (config.url || config.realm || config.clientId) {
       storage.save(config);
@@ -61,7 +61,7 @@ export function useKeycloak() {
       const tokensData = keycloakService.getTokens();
       setTokens(tokensData);
     } catch (err) {
-      setError(err instanceof Error ? err.message : 'Erreur de connexion');
+      setError(err instanceof Error ? err.message : 'Connection error');
     } finally {
       setIsLoading(false);
     }
@@ -71,7 +71,7 @@ export function useKeycloak() {
     try {
       await keycloakService.logout();
     } catch (err) {
-      console.error('Erreur déconnexion:', err);
+      console.error('Disconnection error:', err);
     } finally {
       keycloakService.clear();
       setTokens(null);
@@ -87,9 +87,7 @@ export function useKeycloak() {
       setTokens(tokensData);
       return { success: true, refreshed };
     } catch (err) {
-      setError(
-        err instanceof Error ? err.message : 'Erreur de rafraîchissement'
-      );
+      setError(err instanceof Error ? err.message : 'Refresh error');
       return { success: false, refreshed: false };
     } finally {
       setIsLoading(false);

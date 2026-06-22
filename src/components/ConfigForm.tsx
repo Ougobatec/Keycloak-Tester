@@ -43,14 +43,14 @@ export function ConfigForm({
         </div>
         <div>
           <h2 className="text-xl font-semibold text-white">
-            Configuration Keycloak
+            Keycloak Configuration
           </h2>
-          <p className="text-sm text-white/60">Paramètres de connexion</p>
+          <p className="text-sm text-white/60">Connection settings</p>
         </div>
       </div>
 
       <div>
-        <label className="block text-sm text-white/70 mb-1">URL Keycloak</label>
+        <label className="block text-sm text-white/70 mb-1">Keycloak URL</label>
         <input
           type="url"
           value={config.url}
@@ -93,7 +93,7 @@ export function ConfigForm({
           className="rounded bg-white/5 border-white/20"
         />
         <label htmlFor="sso" className="text-sm text-white/70 cursor-pointer">
-          Désactiver SSO silencieux
+          Disable silent SSO
         </label>
       </div>
 
@@ -124,7 +124,7 @@ export function ConfigForm({
                   d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
                 />
               </svg>
-              Connexion...
+              Connecting...
             </>
           ) : (
             <>
@@ -141,7 +141,7 @@ export function ConfigForm({
                   d="M11 16l-4-4m0 0l4-4m-4 4h14m-5 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h7a3 3 0 013 3v1"
                 />
               </svg>
-              Se connecter
+              Connect
             </>
           )}
         </button>
@@ -162,7 +162,7 @@ export function ConfigForm({
               d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"
             />
           </svg>
-          Effacer
+          Clear
         </button>
       </div>
     </div>

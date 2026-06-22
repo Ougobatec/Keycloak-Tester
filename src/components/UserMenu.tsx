@@ -44,7 +44,7 @@ export function UserMenu({ user, isOpen, onClose }: UserMenuProps) {
         <button
           onClick={() => copyToClipboard(value)}
           className="flex-shrink-0 opacity-0 group-hover:opacity-100 bg-white/5 hover:bg-white/10 border border-white/20 text-white/80 hover:text-white transition-opacity duration-150 p-1.5 rounded"
-          title="Copier"
+          title="Copy"
         >
           <svg
             className="w-4 h-4"
@@ -90,16 +90,14 @@ export function UserMenu({ user, isOpen, onClose }: UserMenuProps) {
               </svg>
             </div>
             <div>
-              <h2 className="text-xl font-semibold text-white">
-                Profil Utilisateur
-              </h2>
-              <p className="text-sm text-white/50">Informations du compte</p>
+              <h2 className="text-xl font-semibold text-white">User Profile</h2>
+              <p className="text-sm text-white/50">Account information</p>
             </div>
           </div>
           <button
             onClick={onClose}
             className="text-white/40 hover:text-white/80 transition"
-            title="Fermer"
+            title="Close"
           >
             <svg
               className="w-6 h-6"
@@ -120,7 +118,7 @@ export function UserMenu({ user, isOpen, onClose }: UserMenuProps) {
         {/* Content */}
         <div className="space-y-2">
           <InfoRow
-            label="Nom complet"
+            label="Full name"
             value={user.name || 'N/A'}
             color="blue"
             icon={
@@ -162,7 +160,7 @@ export function UserMenu({ user, isOpen, onClose }: UserMenuProps) {
           />
 
           <InfoRow
-            label="Nom d'utilisateur"
+            label="Username"
             value={user.preferred_username || 'N/A'}
             color="teal"
             icon={
@@ -183,7 +181,7 @@ export function UserMenu({ user, isOpen, onClose }: UserMenuProps) {
           />
 
           <InfoRow
-            label="ID Utilisateur"
+            label="User ID"
             value={user.sub || 'N/A'}
             color="emerald"
             icon={
@@ -224,7 +222,7 @@ export function UserMenu({ user, isOpen, onClose }: UserMenuProps) {
                     </svg>
                   </div>
                   <span className="text-sm text-white/90 font-medium">
-                    Rôles attribués
+                    Assigned roles
                   </span>
                 </div>
                 <div className="flex flex-wrap gap-2">

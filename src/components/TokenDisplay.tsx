@@ -64,7 +64,7 @@ export function TokenDisplay({
               onClick={() => setShowDecoded(!showDecoded)}
               className="px-3 py-2 rounded-lg font-medium text-sm transition bg-white/5 hover:bg-white/10 border border-white/20 text-white/80 hover:text-white"
             >
-              {showDecoded ? 'Token brut' : 'Décodé'}
+              {showDecoded ? 'Raw Token' : 'Decoded'}
             </button>
           )}
           <button
@@ -76,7 +76,7 @@ export function TokenDisplay({
               )
             }
             className="bg-white/5 hover:bg-white/10 border border-white/20 text-white/80 hover:text-white transition p-2 rounded-lg"
-            title="Copier"
+            title="Copy"
           >
             <svg
               className="w-5 h-5"
