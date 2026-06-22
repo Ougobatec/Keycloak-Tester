@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import type { KeycloakConfig, TokenInfo } from '../types';
 import { keycloakService } from '../services/keycloak.service';
 import { storage } from '../utils/helpers';
@@ -13,33 +13,34 @@ export function useKeycloak() {
   const [tokens, setTokens] = useState<TokenInfo | null>(null);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const isInitializing = useRef(false);
 
-  // Load config on startup
+  // Load config on startup and check auth once
   useEffect(() => {
+    // Prevent multiple simultaneous inits
+    if (isInitializing.current) return;
+
     const saved = storage.load();
     if (saved) {
       setConfig(saved);
-    }
-  }, []);
 
-  // Check auth on startup or config change
-  useEffect(() => {
-    const checkAuth = async () => {
-      if (!config.url || !config.realm || !config.clientId) return;
-
-      try {
-        const authenticated = await keycloakService.init(config);
-        if (authenticated) {
-          const tokensData = keycloakService.getTokens();
-          setTokens(tokensData);
-        }
-      } catch (err) {
-        console.error('Auth verification error:', err);
+      // Check auth only if we have a complete config
+      if (saved.url && saved.realm && saved.clientId) {
+        isInitializing.current = true;
+        (async () => {
+          try {
+            const authenticated = await keycloakService.init(saved);
+            if (authenticated) {
+              const tokensData = keycloakService.getTokens();
+              setTokens(tokensData);
+            }
+          } catch (err) {
+            console.error('Startup auth check error:', err);
+          }
+        })();
       }
-    };
-
-    checkAuth();
-  }, [config]);
+    }
+  }, []); // Empty array = runs only once on mount
 
   // Save config automatically
   useEffect(() => {
