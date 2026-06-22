@@ -6,7 +6,7 @@ export type ColorName =
   | 'teal'
   | 'emerald'
   | 'red'
-  | 'transparent';
+  | 'default';
 
 // Icon box and button gradient backgrounds
 export const gradientColors: Record<ColorName, string> = {
@@ -17,7 +17,7 @@ export const gradientColors: Record<ColorName, string> = {
   emerald:
     'bg-linear-to-br from-emerald-600 to-emerald-700 shadow-lg shadow-emerald-500/20',
   red: 'bg-linear-to-br from-red-600 to-red-700 shadow-lg shadow-red-500/20',
-  transparent: 'bg-white/5',
+  default: 'bg-white/5',
 };
 
 // Hover states for buttons
@@ -27,7 +27,7 @@ export const gradientHoverColors: Record<ColorName, string> = {
   teal: 'hover:from-teal-700 hover:to-teal-800',
   emerald: 'hover:from-emerald-700 hover:to-emerald-800',
   red: 'hover:from-red-700 hover:to-red-800',
-  transparent: 'hover:bg-white/10',
+  default: 'hover:bg-white/10',
 };
 
 // Border colors for GlassPanel and Button
@@ -37,5 +37,13 @@ export const borderColors: Record<ColorName, string> = {
   teal: 'border-teal-500/40',
   emerald: 'border-emerald-500/40',
   red: 'border-red-500/40',
-  transparent: 'border-white/10',
+  default: 'border-white/10',
+};
+
+// Background colors for panels and inputs
+export const backgroundColors = {
+  app: 'bg-linear-to-br from-slate-900 via-blue-950 to-slate-900',
+  panel: 'bg-slate-800/30',
+  input: 'bg-slate-900/50',
+  transparent: 'bg-transparent',
 };

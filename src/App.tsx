@@ -8,6 +8,7 @@ import { NavBar } from './components/NavBar';
 import { UserMenu } from './components/UserMenu';
 import { Toast } from './components/Toast';
 import { TokenDisplay } from './components/TokenDisplay';
+import { backgroundColors } from './styles/colors';
 
 function App() {
   const {
@@ -62,7 +63,7 @@ function App() {
   }, [error]);
 
   return (
-    <div className="min-h-screen bg-linear-to-br from-slate-900 via-blue-950 to-slate-900">
+    <div className={`min-h-screen ${backgroundColors.app}`}>
       {/* Navigation Bar */}
       <NavBar
         isConnected={isConnected}

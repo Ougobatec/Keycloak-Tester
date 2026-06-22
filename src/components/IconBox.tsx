@@ -15,7 +15,7 @@ const sizes = {
 
 export function IconBox({
   children,
-  color = 'transparent',
+  color = 'default',
   size = 'md',
 }: IconBoxProps) {
   return (

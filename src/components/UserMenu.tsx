@@ -4,6 +4,7 @@ import { GlassPanel } from './GlassPanel';
 import { IconBox } from './IconBox';
 import { Backdrop } from './Backdrop';
 import { InfoRow } from './InfoRow';
+import { borderColors } from '../styles/colors';
 
 interface UserMenuProps {
   user: ParsedToken;
@@ -171,7 +172,9 @@ export function UserMenu({
             {/* Rôles */}
             {accessToken.realm_access?.roles &&
               accessToken.realm_access.roles.length > 0 && (
-                <GlassPanel padding="sm" className="mt-2">
+                <div
+                  className={`bg-transparent p-4 rounded-md border ${borderColors.default}`}
+                >
                   <div className="flex items-center gap-3 mb-3">
                     <IconBox color="purple" size="sm">
                       <svg
@@ -202,7 +205,7 @@ export function UserMenu({
                       </span>
                     ))}
                   </div>
-                </GlassPanel>
+                </div>
               )}
           </div>
         </GlassPanel>

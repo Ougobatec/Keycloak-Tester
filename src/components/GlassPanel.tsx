@@ -2,6 +2,7 @@ import type { ReactNode } from 'react';
 import {
   type ColorName,
   borderColors as globalBorderColors,
+  backgroundColors,
 } from '../styles/colors';
 
 interface GlassPanelProps {
@@ -30,7 +31,7 @@ const roundedSizes = {
 
 export function GlassPanel({
   children,
-  borderColor = 'transparent',
+  borderColor = 'default',
   border = 'border',
   padding = 'md',
   rounded = 'md',
@@ -38,7 +39,7 @@ export function GlassPanel({
 }: GlassPanelProps) {
   return (
     <div
-      className={`bg-slate-800/30 backdrop-blur-sm ${border} ${globalBorderColors[borderColor]} ${paddings[padding]} ${roundedSizes[rounded]} ${className}`}
+      className={`${backgroundColors.panel} backdrop-blur-lg ${border} ${globalBorderColors[borderColor]} ${paddings[padding]} ${roundedSizes[rounded]} ${className}`}
     >
       {children}
     </div>

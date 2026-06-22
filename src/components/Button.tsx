@@ -23,7 +23,7 @@ const sizes = {
 export function Button({
   children,
   onClick,
-  color = 'transparent',
+  color = 'default',
   size = 'md',
   className = '',
 }: ButtonProps) {

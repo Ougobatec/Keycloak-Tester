@@ -12,7 +12,7 @@ export function Backdrop({ onClick, children }: BackdropProps) {
       onClick={onClick}
     >
       <div
-        className="absolute inset-0 bg-black/25 backdrop-blur-[2px]"
+        className="absolute inset-0 bg-black/10 backdrop-blur-[2px]"
         aria-hidden="true"
       />
       {children}

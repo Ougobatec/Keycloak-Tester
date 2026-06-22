@@ -2,8 +2,11 @@ import { useEffect, useState, useRef } from 'react';
 import { copyToClipboard } from '../utils/helpers';
 import { IconBox } from './IconBox';
 import { Button } from './Button';
-import { GlassPanel } from './GlassPanel';
-import type { ColorName } from '../styles/colors';
+import {
+  type ColorName,
+  borderColors,
+  backgroundColors,
+} from '../styles/colors';
 
 interface InfoRowProps {
   label: string;
@@ -24,7 +27,9 @@ export function InfoRow({ label, value, icon, color = 'blue' }: InfoRowProps) {
   }, []);
 
   return (
-    <GlassPanel padding="sm" className="group relative">
+    <div
+      className={`group relative ${backgroundColors.transparent} p-4 rounded-md border ${borderColors.default}`}
+    >
       <div className="flex items-center gap-3">
         <IconBox color={color} size="sm">
           {icon}
@@ -79,6 +84,6 @@ export function InfoRow({ label, value, icon, color = 'blue' }: InfoRowProps) {
           )}
         </Button>
       </div>
-    </GlassPanel>
+    </div>
   );
 }
