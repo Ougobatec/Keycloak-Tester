@@ -101,7 +101,7 @@ export function ConfigForm({
         <button
           onClick={onConnect}
           disabled={!isValid || isLoading}
-          className="flex-1 bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 disabled:from-gray-600 disabled:to-gray-700 disabled:cursor-not-allowed text-white px-4 py-2 rounded-lg font-medium transition flex items-center justify-center gap-2 shadow-lg shadow-blue-500/20"
+          className="flex-1 bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 disabled:from-gray-600 disabled:to-gray-700 disabled:cursor-not-allowed text-white px-4 py-2 rounded-lg font-medium transition flex items-center justify-center gap-2 shadow-lg shadow-blue-500/20 cursor-pointer"
         >
           {isLoading ? (
             <>
@@ -147,7 +147,7 @@ export function ConfigForm({
         </button>
         <button
           onClick={onClear}
-          className="bg-gradient-to-r from-red-600 to-rose-600 hover:from-red-700 hover:to-rose-700 rounded-lg px-4 py-2 text-white font-medium transition flex items-center gap-2 shadow-lg shadow-red-500/30"
+          className="bg-gradient-to-r from-red-600 to-rose-600 hover:from-red-700 hover:to-rose-700 rounded-lg px-4 py-2 text-white font-medium transition flex items-center gap-2 shadow-lg shadow-red-500/30 cursor-pointer"
         >
           <svg
             className="w-4 h-4"

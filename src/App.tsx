@@ -4,9 +4,8 @@ import { NavBar } from './components/NavBar';
 import { UserMenu } from './components/UserMenu';
 import { TokenDisplay } from './components/TokenDisplay';
 import { Toast } from './components/Toast';
+import { ExpirationTimer } from './components/ExpirationTimer';
 import { useKeycloak } from './hooks/useKeycloak';
-import { useTimer } from './hooks/useTimer';
-import { formatExpiration } from './utils/helpers';
 
 function App() {
   const {
@@ -23,9 +22,6 @@ function App() {
   } = useKeycloak();
   const [showUserMenu, setShowUserMenu] = useState(false);
   const [refreshMessage, setRefreshMessage] = useState<string | null>(null);
-
-  // Timer to update expirations
-  useTimer(!!tokens);
 
   const isConnected = !!tokens;
 
@@ -119,9 +115,9 @@ function App() {
                 title="Access Token"
                 token={tokens.accessToken}
                 expiration={
-                  tokens.tokenParsed.exp
-                    ? formatExpiration(tokens.tokenParsed.exp)
-                    : undefined
+                  tokens.tokenParsed.exp ? (
+                    <ExpirationTimer exp={tokens.tokenParsed.exp} />
+                  ) : undefined
                 }
                 color="blue"
                 icon={
@@ -145,9 +141,9 @@ function App() {
                   title="ID Token"
                   token={tokens.idToken}
                   expiration={
-                    tokens.idTokenParsed?.exp
-                      ? formatExpiration(tokens.idTokenParsed.exp)
-                      : undefined
+                    tokens.idTokenParsed?.exp ? (
+                      <ExpirationTimer exp={tokens.idTokenParsed.exp} />
+                    ) : undefined
                   }
                   color="purple"
                   icon={
@@ -172,9 +168,9 @@ function App() {
                   title="Refresh Token"
                   token={tokens.refreshToken}
                   expiration={
-                    tokens.refreshTokenParsed?.exp
-                      ? formatExpiration(tokens.refreshTokenParsed.exp)
-                      : undefined
+                    tokens.refreshTokenParsed?.exp ? (
+                      <ExpirationTimer exp={tokens.refreshTokenParsed.exp} />
+                    ) : undefined
                   }
                   color="teal"
                   icon={

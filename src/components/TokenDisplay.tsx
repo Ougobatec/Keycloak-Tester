@@ -4,7 +4,7 @@ import { copyToClipboard, decodeJWT } from '../utils/helpers';
 interface TokenDisplayProps {
   title: string;
   token: string;
-  expiration?: string;
+  expiration?: string | React.ReactNode;
   icon?: React.ReactNode;
   color?: 'blue' | 'purple' | 'teal';
 }
@@ -62,7 +62,7 @@ export function TokenDisplay({
           {decoded && (
             <button
               onClick={() => setShowDecoded(!showDecoded)}
-              className="px-3 py-2 rounded-lg font-medium text-sm transition bg-white/5 hover:bg-white/10 border border-white/20 text-white/80 hover:text-white"
+              className="px-3 py-2 rounded-lg font-medium text-sm transition bg-white/5 hover:bg-white/10 border border-white/20 text-white/80 hover:text-white cursor-pointer"
             >
               {showDecoded ? 'Raw Token' : 'Decoded'}
             </button>
@@ -75,7 +75,7 @@ export function TokenDisplay({
                   : token
               )
             }
-            className="bg-white/5 hover:bg-white/10 border border-white/20 text-white/80 hover:text-white transition p-2 rounded-lg"
+            className="bg-white/5 hover:bg-white/10 border border-white/20 text-white/80 hover:text-white transition p-2 rounded-lg cursor-pointer"
             title="Copy"
           >
             <svg

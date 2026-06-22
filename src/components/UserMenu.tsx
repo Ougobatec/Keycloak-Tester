@@ -49,7 +49,7 @@ export function UserMenu({
         </div>
         <button
           onClick={() => copyToClipboard(value)}
-          className="flex-shrink-0 opacity-0 group-hover:opacity-100 bg-white/5 hover:bg-white/10 border border-white/20 text-white/80 hover:text-white transition-opacity duration-150 p-1.5 rounded"
+          className="flex-shrink-0 opacity-0 group-hover:opacity-100 bg-white/5 hover:bg-white/10 border border-white/20 text-white/80 hover:text-white transition-opacity duration-150 p-1.5 rounded cursor-pointer"
           title="Copy"
         >
           <svg
@@ -102,7 +102,7 @@ export function UserMenu({
           </div>
           <button
             onClick={onClose}
-            className="text-white/40 hover:text-white/80 transition"
+            className="text-white/40 hover:text-white/80 transition cursor-pointer"
             title="Close"
           >
             <svg

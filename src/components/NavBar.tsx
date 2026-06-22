@@ -49,7 +49,7 @@ export function NavBar({
             {!isConnected ? (
               <button
                 onClick={onConnect}
-                className="bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white px-6 py-2 rounded-lg font-medium transition flex items-center gap-2 shadow-lg shadow-blue-500/20"
+                className="bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white px-6 py-2 rounded-lg font-medium transition flex items-center gap-2 shadow-lg shadow-blue-500/20 cursor-pointer"
               >
                 <svg
                   className="w-5 h-5"
@@ -70,7 +70,7 @@ export function NavBar({
               <>
                 <button
                   onClick={onShowUserMenu}
-                  className="bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white px-4 py-2 rounded-lg font-medium transition flex items-center gap-2 shadow-lg shadow-blue-500/20"
+                  className="bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white px-4 py-2 rounded-lg font-medium transition flex items-center gap-2 shadow-lg shadow-blue-500/20 cursor-pointer"
                 >
                   <svg
                     className="w-5 h-5"
@@ -88,7 +88,7 @@ export function NavBar({
 
                 <button
                   onClick={onRefresh}
-                  className="bg-gradient-to-r from-emerald-600 to-teal-600 hover:from-emerald-700 hover:to-teal-700 text-white px-4 py-2 rounded-lg font-medium transition flex items-center gap-2 shadow-lg shadow-emerald-500/20"
+                  className="bg-gradient-to-r from-emerald-600 to-teal-600 hover:from-emerald-700 hover:to-teal-700 text-white px-4 py-2 rounded-lg font-medium transition flex items-center gap-2 shadow-lg shadow-emerald-500/20 cursor-pointer"
                 >
                   <svg
                     className="w-4 h-4"
@@ -108,7 +108,7 @@ export function NavBar({
 
                 <button
                   onClick={onDisconnect}
-                  className="bg-gradient-to-r from-red-600 to-rose-600 hover:from-red-700 hover:to-rose-700 text-white px-4 py-2 rounded-lg font-medium transition flex items-center gap-2 shadow-lg shadow-red-500/30"
+                  className="bg-gradient-to-r from-red-600 to-rose-600 hover:from-red-700 hover:to-rose-700 text-white px-4 py-2 rounded-lg font-medium transition flex items-center gap-2 shadow-lg shadow-red-500/30 cursor-pointer"
                 >
                   <svg
                     className="w-4 h-4"
